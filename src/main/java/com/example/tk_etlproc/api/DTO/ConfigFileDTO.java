@@ -5,5 +5,8 @@ import lombok.Data;
 @Data
 public class ConfigFileDTO {
     public String path;
+    public String delimiter;
+
+
 
 }
