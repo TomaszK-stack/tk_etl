@@ -1,14 +1,14 @@
 package com.example.tk_etlproc.reading.sources.sql;
 
-import com.example.tk_etlproc.api.DTO.ConfigDatabaseDTO;
-import com.example.tk_etlproc.processing.InputStepData;
+import com.example.tk_etlproc.api.DTO.source.ConfigDatabaseDTO;
+import com.example.tk_etlproc.exceptions.StepNotFoundException;
 import com.example.tk_etlproc.reading.InputHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.sql.*;
 
-@Component
+@Service
 public class SqlServerSource implements SqlSource {
 
     private InputHandler inputHandler;
@@ -18,7 +18,7 @@ public class SqlServerSource implements SqlSource {
     }
 
     @Override
-    public void read(ConfigDatabaseDTO configDTO) throws ClassNotFoundException, SQLException {
+    public void read(ConfigDatabaseDTO configDTO) throws ClassNotFoundException, SQLException, StepNotFoundException {
         String Connectionurl="jdbc:sqlserver://" + configDTO.getHost()
                 + ":"  + configDTO.getPort()
                 + ";DatabaseName=" + configDTO.getDatabaseName()
@@ -39,7 +39,6 @@ public class SqlServerSource implements SqlSource {
         int columnsNumber = rsmd.getColumnCount();
         StringBuilder sb = new StringBuilder();
 
-        // Wyświetlenie nazw kolumn
         for (int i = 1; i <= columnsNumber; i++) {
             if (i > 1) sb.append(",  ");
             String columnName = rsmd.getColumnName(i);
@@ -58,7 +57,7 @@ public class SqlServerSource implements SqlSource {
             }
             sb.append("\n");
         }
-        inputHandler.handle_data(",", sb);
+        inputHandler.handle_data(sb,",", true, configDTO.getConfigProcessingDTO());
     }
 
 

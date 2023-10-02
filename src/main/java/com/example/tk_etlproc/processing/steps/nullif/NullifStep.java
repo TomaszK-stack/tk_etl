@@ -3,9 +3,19 @@ package com.example.tk_etlproc.processing.steps.nullif;
 import com.example.tk_etlproc.processing.InputStepData;
 import com.example.tk_etlproc.processing.InputStepMeta;
 import com.example.tk_etlproc.processing.steps.BaseStep;
+import lombok.Data;
+import lombok.Setter;
 
+
+@Data
+@Setter
 public class NullifStep extends BaseStep {
     private NullifStepMeta nullifStepMeta;
+
+    public NullifStep() {
+        super();
+    }
+
     public NullifStep(InputStepData inputStepData, InputStepMeta inputStepMeta, NullifStepMeta nullifStepMeta) {
         super(inputStepData, inputStepMeta);
         this.nullifStepMeta = nullifStepMeta;
@@ -25,6 +35,7 @@ public class NullifStep extends BaseStep {
         for(String[] s: inputStepData.getData()){
             if(s[expressionColumnIndex].equals(nullifStepMeta.getValueLogicExpression())) s[columnToChangeIndex] = null;
         }
+        System.out.println("udało się");
 
     }
 }
