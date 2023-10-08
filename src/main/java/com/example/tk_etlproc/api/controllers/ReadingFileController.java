@@ -2,6 +2,7 @@ package com.example.tk_etlproc.api.controllers;
 
 import com.example.tk_etlproc.api.DTO.source.ConfigFileDTO;
 import com.example.tk_etlproc.exceptions.StepNotFoundException;
+import com.example.tk_etlproc.processing.OutputFromStep;
 import com.example.tk_etlproc.reading.sources.file.FileCSVSource;
 import com.example.tk_etlproc.reading.sources.file.FileXLSXSource;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 
 @RestController
@@ -27,14 +29,13 @@ public class ReadingFileController {
 
 
     @PostMapping("/csv")
-    public ResponseEntity<String> fileCSVConfig(@RequestBody ConfigFileDTO configDTO) throws FileNotFoundException, StepNotFoundException {
-        fileCSVSource.read(configDTO);
-        return ResponseEntity.ok("");
+    public ResponseEntity<List<OutputFromStep>> fileCSVConfig(@RequestBody ConfigFileDTO configDTO) throws IOException, StepNotFoundException {
+        return ResponseEntity.ok(fileCSVSource.read(configDTO));
+
     }
     @PostMapping("/xlsx")
-    public ResponseEntity<String> fileXLSXConfig(@RequestBody ConfigFileDTO configDTO) throws IOException, StepNotFoundException {
-        fileXLSXSource.read(configDTO);
-        return ResponseEntity.ok("");
+    public ResponseEntity<List<OutputFromStep>> fileXLSXConfig(@RequestBody ConfigFileDTO configDTO) throws IOException, StepNotFoundException {
+        return ResponseEntity.ok(fileXLSXSource.read(configDTO));
     }
 
 

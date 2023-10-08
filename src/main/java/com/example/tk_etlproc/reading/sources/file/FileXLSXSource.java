@@ -2,12 +2,14 @@ package com.example.tk_etlproc.reading.sources.file;
 
 import com.example.tk_etlproc.api.DTO.source.ConfigFileDTO;
 import com.example.tk_etlproc.exceptions.StepNotFoundException;
+import com.example.tk_etlproc.processing.OutputFromStep;
 import com.example.tk_etlproc.reading.InputHandler;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class FileXLSXSource implements FileSource{
@@ -18,9 +20,9 @@ public class FileXLSXSource implements FileSource{
     }
 
     @Override
-    public void read(ConfigFileDTO configFileDTO) throws IOException, StepNotFoundException {
+    public List<OutputFromStep> read(ConfigFileDTO configFileDTO) throws IOException, StepNotFoundException {
         StringBuilder data = get_data_from_file(configFileDTO.getPath());
-        inputHandler.handle_data(data,",", configFileDTO.header,configFileDTO.getConfigProcessingDTO());
+        return inputHandler.handle_data(data,",", configFileDTO.header,configFileDTO.getConfigProcessingDTO());
     }
     private StringBuilder get_data_from_file(String path){
         StringBuilder data = new StringBuilder();

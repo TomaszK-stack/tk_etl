@@ -2,6 +2,7 @@ package com.example.tk_etlproc.processing.steps;
 
 import com.example.tk_etlproc.processing.InputStepData;
 import com.example.tk_etlproc.processing.InputStepMeta;
+import com.example.tk_etlproc.processing.OutputFromStep;
 import lombok.Setter;
 
 @Setter
@@ -16,6 +17,8 @@ public abstract class BaseStep {
         this.inputStepData = inputStepData;
         this.inputStepMeta = inputStepMeta;
     }
-    public void processData(){}
+    public OutputFromStep processData(){
+        return null;
+    }
 
 }

@@ -2,11 +2,13 @@ package com.example.tk_etlproc.reading.sources.sql;
 
 import com.example.tk_etlproc.api.DTO.source.ConfigDatabaseDTO;
 import com.example.tk_etlproc.exceptions.StepNotFoundException;
+import com.example.tk_etlproc.processing.OutputFromStep;
 import com.example.tk_etlproc.reading.InputHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;
+import java.util.List;
 
 @Service
 public class SqlServerSource implements SqlSource {
@@ -18,7 +20,7 @@ public class SqlServerSource implements SqlSource {
     }
 
     @Override
-    public void read(ConfigDatabaseDTO configDTO) throws ClassNotFoundException, SQLException, StepNotFoundException {
+    public List<OutputFromStep> read(ConfigDatabaseDTO configDTO) throws ClassNotFoundException, SQLException, StepNotFoundException {
         String Connectionurl="jdbc:sqlserver://" + configDTO.getHost()
                 + ":"  + configDTO.getPort()
                 + ";DatabaseName=" + configDTO.getDatabaseName()
@@ -40,7 +42,7 @@ public class SqlServerSource implements SqlSource {
         StringBuilder sb = new StringBuilder();
 
         for (int i = 1; i <= columnsNumber; i++) {
-            if (i > 1) sb.append(",  ");
+            if (i > 1) sb.append(",");
             String columnName = rsmd.getColumnName(i);
             sb.append(columnName);
         }
@@ -49,7 +51,7 @@ public class SqlServerSource implements SqlSource {
 
         while (resultSet.next()) {
             for (int i = 1; i <= columnsNumber; i++) {
-                if (i > 1) sb.append(",  ");
+                if (i > 1) sb.append(",");
 
                 String columnValue = resultSet.getString(i);
                 sb.append(columnValue);
@@ -57,7 +59,7 @@ public class SqlServerSource implements SqlSource {
             }
             sb.append("\n");
         }
-        inputHandler.handle_data(sb,",", true, configDTO.getConfigProcessingDTO());
+        return inputHandler.handle_data(sb,",", true, configDTO.getConfigProcessingDTO());
     }
 
 

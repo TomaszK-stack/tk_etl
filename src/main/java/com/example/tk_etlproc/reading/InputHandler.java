@@ -5,6 +5,7 @@ import com.example.tk_etlproc.api.DTO.processing.ConfigProcessingDTO;
 import com.example.tk_etlproc.exceptions.StepNotFoundException;
 import com.example.tk_etlproc.processing.InputStepData;
 import com.example.tk_etlproc.processing.InputStepMeta;
+import com.example.tk_etlproc.processing.OutputFromStep;
 import com.example.tk_etlproc.processing.configreader.NormalConfigReader;
 import com.example.tk_etlproc.processing.steps.BaseStep;
 import org.springframework.stereotype.Component;
@@ -21,17 +22,17 @@ public class InputHandler {
     }
 
 
-    public void handle_data(StringBuilder data, String delimiter, boolean header, ConfigProcessingDTO processingDTO) throws StepNotFoundException {
+    public List<OutputFromStep> handle_data(StringBuilder data, String delimiter, boolean header, ConfigProcessingDTO processingDTO) throws StepNotFoundException {
         InputStepData inputStepData = prepare_data(data, delimiter, header);
         InputStepMeta inputStepMeta = prepareMeta(inputStepData);
         List<BaseStep> stepList =  configReader.readConfig(processingDTO);
+        List<OutputFromStep> outputList = new ArrayList<>();
         for(BaseStep step: stepList){
-
             step.setInputStepMeta(inputStepMeta);
             step.setInputStepData(inputStepData);
-            step.processData();
+            outputList.add(step.processData());
         }
-
+        return outputList;
 
 
     }

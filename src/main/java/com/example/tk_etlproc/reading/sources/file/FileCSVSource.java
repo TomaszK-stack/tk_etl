@@ -2,12 +2,14 @@ package com.example.tk_etlproc.reading.sources.file;
 
 import com.example.tk_etlproc.api.DTO.source.ConfigFileDTO;
 import com.example.tk_etlproc.exceptions.StepNotFoundException;
+import com.example.tk_etlproc.processing.OutputFromStep;
 import com.example.tk_etlproc.reading.InputHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Scanner;
 
 @Service
@@ -19,9 +21,9 @@ public class FileCSVSource implements FileSource {
     }
 
     @Override
-    public void read(ConfigFileDTO configFileDTO) throws FileNotFoundException, StepNotFoundException {
+    public List<OutputFromStep> read(ConfigFileDTO configFileDTO) throws FileNotFoundException, StepNotFoundException {
         StringBuilder data = get_data_from_file(configFileDTO.getPath());
-        inputHandler.handle_data( data,configFileDTO.getDelimiter(), configFileDTO.header, configFileDTO.getConfigProcessingDTO());
+        return inputHandler.handle_data( data,configFileDTO.getDelimiter(), configFileDTO.header, configFileDTO.getConfigProcessingDTO());
 
     }
 

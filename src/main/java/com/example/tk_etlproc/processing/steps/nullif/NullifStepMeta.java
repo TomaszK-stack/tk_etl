@@ -6,6 +6,7 @@ import lombok.Data;
 @Builder
 @Data
 public class NullifStepMeta extends BaseStepMeta {
+
     private String columnName;
     private String columnNameValueExpression;
     private String valueLogicExpression;

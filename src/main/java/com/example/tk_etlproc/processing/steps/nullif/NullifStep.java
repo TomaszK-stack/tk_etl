@@ -2,6 +2,7 @@ package com.example.tk_etlproc.processing.steps.nullif;
 
 import com.example.tk_etlproc.processing.InputStepData;
 import com.example.tk_etlproc.processing.InputStepMeta;
+import com.example.tk_etlproc.processing.OutputFromStep;
 import com.example.tk_etlproc.processing.steps.BaseStep;
 import lombok.Data;
 import lombok.Setter;
@@ -22,20 +23,21 @@ public class NullifStep extends BaseStep {
     }
 
     @Override
-    public void processData() {
+    public OutputFromStep processData() {
         String[] headerRow = this.inputStepData.getData().get(0);
         int expressionColumnIndex = 0;
         int columnToChangeIndex = 0;
 
         for (int i=0; i<=headerRow.length-1;i++){
-            if(headerRow[i].equals(nullifStepMeta.getColumnName())) columnToChangeIndex = i;
-            if(headerRow[i].equals(nullifStepMeta.getColumnNameValueExpression())) expressionColumnIndex = i;
+            if(headerRow[i].strip().equals(nullifStepMeta.getColumnName())) columnToChangeIndex = i;
+            if(headerRow[i].strip().equals(nullifStepMeta.getColumnNameValueExpression())) expressionColumnIndex = i;
 
         }
         for(String[] s: inputStepData.getData()){
             if(s[expressionColumnIndex].equals(nullifStepMeta.getValueLogicExpression())) s[columnToChangeIndex] = null;
         }
         System.out.println("udało się");
+        return new OutputFromStep(this.inputStepData, this.inputStepMeta);
 
     }
 }
