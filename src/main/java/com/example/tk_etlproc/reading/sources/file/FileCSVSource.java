@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,9 +22,9 @@ public class FileCSVSource implements FileSource {
     }
 
     @Override
-    public List<OutputFromStep> read(ConfigFileDTO configFileDTO) throws FileNotFoundException, StepNotFoundException {
+    public List<OutputFromStep> read(ConfigFileDTO configFileDTO) throws FileNotFoundException, StepNotFoundException, SQLException, ClassNotFoundException {
         StringBuilder data = get_data_from_file(configFileDTO.getPath());
-        return inputHandler.handle_data( data,configFileDTO.getDelimiter(), configFileDTO.header, configFileDTO.getConfigProcessingDTO());
+        return inputHandler.handle_data( data,configFileDTO.getDelimiter(), configFileDTO.isHeader(), configFileDTO);
 
     }
 
@@ -36,7 +37,6 @@ public class FileCSVSource implements FileSource {
                 content.append("\n");
             }
         }
-        System.out.println(content);
 
         return content;
     }

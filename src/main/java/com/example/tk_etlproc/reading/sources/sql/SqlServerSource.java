@@ -26,10 +26,8 @@ public class SqlServerSource implements SqlSource {
                 + ";DatabaseName=" + configDTO.getDatabaseName()
                 + ";user=" + configDTO.getUser()
                 + ";password=" + configDTO.getPassword();
-        System.out.println(Connectionurl);
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         Connection connection = DriverManager.getConnection(Connectionurl);
-        System.out.println(Connectionurl);
         if (connection != null) {
             System.out.println("Connection created successfully..");
         }
@@ -59,7 +57,7 @@ public class SqlServerSource implements SqlSource {
             }
             sb.append("\n");
         }
-        return inputHandler.handle_data(sb,",", true, configDTO.getConfigProcessingDTO());
+        return inputHandler.handle_data(sb,",", true, configDTO);
     }
 
 

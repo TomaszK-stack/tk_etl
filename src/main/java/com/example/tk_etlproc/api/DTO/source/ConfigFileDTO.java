@@ -11,5 +11,4 @@ public class ConfigFileDTO extends BaseDTO {
     public boolean header;
 
 
-
 }

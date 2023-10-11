@@ -1,15 +1,19 @@
 package com.example.tk_etlproc.reading;
 
 
-import com.example.tk_etlproc.api.DTO.processing.ConfigProcessingDTO;
+
+import com.example.tk_etlproc.api.DTO.source.BaseDTO;
 import com.example.tk_etlproc.exceptions.StepNotFoundException;
 import com.example.tk_etlproc.processing.InputStepData;
 import com.example.tk_etlproc.processing.InputStepMeta;
 import com.example.tk_etlproc.processing.OutputFromStep;
 import com.example.tk_etlproc.processing.configreader.NormalConfigReader;
 import com.example.tk_etlproc.processing.steps.BaseStep;
+import com.example.tk_etlproc.saving.BaseDestination;
+import com.example.tk_etlproc.saving.DestinationReader;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
 import java.util.*;
 
 @Component
@@ -17,21 +21,26 @@ public class InputHandler {
 
     private NormalConfigReader configReader;
 
-    public InputHandler(NormalConfigReader configReader) {
+    private DestinationReader destinationReader;
+
+    public InputHandler(NormalConfigReader configReader, DestinationReader destinationReader) {
         this.configReader = configReader;
+        this.destinationReader = destinationReader;
     }
 
 
-    public List<OutputFromStep> handle_data(StringBuilder data, String delimiter, boolean header, ConfigProcessingDTO processingDTO) throws StepNotFoundException {
+    public List<OutputFromStep> handle_data(StringBuilder data, String delimiter, boolean header, BaseDTO baseDTO) throws StepNotFoundException, SQLException, ClassNotFoundException {
         InputStepData inputStepData = prepare_data(data, delimiter, header);
         InputStepMeta inputStepMeta = prepareMeta(inputStepData);
-        List<BaseStep> stepList =  configReader.readConfig(processingDTO);
+        List<BaseStep> stepList =  configReader.readConfig(baseDTO.getConfigProcessingDTO());
         List<OutputFromStep> outputList = new ArrayList<>();
         for(BaseStep step: stepList){
             step.setInputStepMeta(inputStepMeta);
             step.setInputStepData(inputStepData);
             outputList.add(step.processData());
         }
+        BaseDestination destination = destinationReader.readDestinationConfig(baseDTO.getDestinationType(),  baseDTO.getDestinationElementsList());
+        destination.save(inputStepData, inputStepMeta, header);
         return outputList;
 
 

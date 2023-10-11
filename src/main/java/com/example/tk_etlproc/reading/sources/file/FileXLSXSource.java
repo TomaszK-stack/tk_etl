@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -20,9 +21,9 @@ public class FileXLSXSource implements FileSource{
     }
 
     @Override
-    public List<OutputFromStep> read(ConfigFileDTO configFileDTO) throws IOException, StepNotFoundException {
+    public List<OutputFromStep> read(ConfigFileDTO configFileDTO) throws IOException, StepNotFoundException, SQLException, ClassNotFoundException {
         StringBuilder data = get_data_from_file(configFileDTO.getPath());
-        return inputHandler.handle_data(data,",", configFileDTO.header,configFileDTO.getConfigProcessingDTO());
+        return inputHandler.handle_data(data,",", configFileDTO.header,configFileDTO);
     }
     private StringBuilder get_data_from_file(String path){
         StringBuilder data = new StringBuilder();
