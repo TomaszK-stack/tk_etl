@@ -11,17 +11,17 @@ import java.util.List;
 @Data
 public class InputStepData {
 
-    public List<String[]> data;
+    public List<Object[]> data;
 
-    public InputStepData(List<String[]> data) {
+    public InputStepData(List<Object[]> data) {
         this.data = data;
     }
 
-    public void printData(){
-        for (String[] row: data){
-            Arrays.stream(row).forEach(System.out::print);
-        }
-    }
+//    public void printData(){
+//        for (String[] row: data){
+//            Arrays.stream(row).forEach(System.out::print);
+//        }
+//    }
 
 
 }

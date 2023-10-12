@@ -18,7 +18,13 @@ public abstract class BaseStep {
         this.inputStepMeta = inputStepMeta;
     }
     public OutputFromStep processData(){
+        for (Object[] row: inputStepData.getData()){
+            row = processRow(row);
+        }
+
+        return new OutputFromStep(this.inputStepData, this.inputStepMeta);
+    }
+    protected Object[] processRow(Object[] row){
         return null;
     }
-
 }

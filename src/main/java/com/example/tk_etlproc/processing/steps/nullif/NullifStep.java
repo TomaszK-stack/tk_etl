@@ -24,7 +24,7 @@ public class NullifStep extends BaseStep {
 
     @Override
     public OutputFromStep processData() {
-        String[] headerRow = this.inputStepData.getData().get(0);
+        String[] headerRow = (String[]) this.inputStepData.getData().get(0);
         int expressionColumnIndex = 0;
         int columnToChangeIndex = 0;
 
@@ -33,10 +33,10 @@ public class NullifStep extends BaseStep {
             if(headerRow[i].strip().equals(nullifStepMeta.getColumnNameValueExpression())) expressionColumnIndex = i;
 
         }
-        for(String[] s: inputStepData.getData()){
+        for(Object[] s: inputStepData.getData()){
             if(s[expressionColumnIndex].equals(nullifStepMeta.getValueLogicExpression())) s[columnToChangeIndex] = null;
         }
-        System.out.println("udało się");
+
         return new OutputFromStep(this.inputStepData, this.inputStepMeta);
 
     }

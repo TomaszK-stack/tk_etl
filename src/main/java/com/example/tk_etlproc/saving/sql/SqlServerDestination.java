@@ -55,11 +55,11 @@ public class SqlServerDestination extends BaseDestination {
 
         int row_number = 1;
         int cell_number = 1;
-        for(String[] row : inputStepData.getData()){
+        for(Object[] row : inputStepData.getData()){
             if(row_number==1) {
                 if(!header) {
-                    for (String cell : row) {
-                        statement.setString(cell_number,cell);
+                    for (Object cell : row) {
+                        statement.setObject(cell_number,cell);
                         cell_number++;
                     }
                     statement.executeUpdate();
@@ -67,8 +67,8 @@ public class SqlServerDestination extends BaseDestination {
                 }
 
             }else{
-                for (String cell : row) {
-                    statement.setString(cell_number,cell);
+                for (Object cell : row) {
+                    statement.setObject(cell_number,cell);
                     cell_number++;
 
                 }

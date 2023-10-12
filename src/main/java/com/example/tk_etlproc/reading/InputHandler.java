@@ -47,7 +47,7 @@ public class InputHandler {
     }
 
     private InputStepData prepare_data(StringBuilder data, String delimiter, boolean header){
-        List<String[]> preparedData = new ArrayList<>();
+        List<Object[]> preparedData = new ArrayList<>();
         String stringData = data.toString();
         String[] splittedData = stringData.split("\n");
         if(!header){
@@ -67,7 +67,7 @@ public class InputHandler {
                 .build();
     }
     private InputStepMeta prepareMeta(InputStepData inputStepData){
-        String[] columns = inputStepData.getData().get(0);
+        String[] columns = (String[]) inputStepData.getData().get(0);
         List<String> columnsList = Arrays.stream(columns).toList();
         int columnsNumber = columnsList.size();
         return InputStepMeta.builder()
