@@ -7,6 +7,8 @@ import com.example.tk_etlproc.processing.steps.BaseStep;
 import lombok.Data;
 import lombok.Setter;
 
+import java.util.List;
+
 
 @Data
 @Setter
@@ -17,24 +19,20 @@ public class NullifStep extends BaseStep {
         super();
     }
 
-    public NullifStep(InputStepData inputStepData, InputStepMeta inputStepMeta, NullifStepMeta nullifStepMeta) {
-        super(inputStepData, inputStepMeta);
-        this.nullifStepMeta = nullifStepMeta;
-    }
+
 
     @Override
     public OutputFromStep processData() {
-        String[] headerRow = (String[]) this.inputStepData.getData().get(0);
+        List<Object> headerRow =  this.inputStepData.getData().get(0);
         int expressionColumnIndex = 0;
         int columnToChangeIndex = 0;
 
-        for (int i=0; i<=headerRow.length-1;i++){
-            if(headerRow[i].strip().equals(nullifStepMeta.getColumnName())) columnToChangeIndex = i;
-            if(headerRow[i].strip().equals(nullifStepMeta.getColumnNameValueExpression())) expressionColumnIndex = i;
+        columnToChangeIndex = headerRow.indexOf(nullifStepMeta.getColumnName());
+        expressionColumnIndex = headerRow.indexOf(nullifStepMeta.getColumnName());
 
-        }
-        for(Object[] s: inputStepData.getData()){
-            if(s[expressionColumnIndex].equals(nullifStepMeta.getValueLogicExpression())) s[columnToChangeIndex] = null;
+
+        for(List<Object> s: inputStepData.getData()){
+            if(s.get(expressionColumnIndex).equals(nullifStepMeta.getValueLogicExpression())) s.set(columnToChangeIndex, null);
         }
 
         return new OutputFromStep(this.inputStepData, this.inputStepMeta);

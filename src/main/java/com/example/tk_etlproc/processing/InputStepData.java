@@ -11,9 +11,9 @@ import java.util.List;
 @Data
 public class InputStepData {
 
-    public List<Object[]> data;
+    public List<List<Object>> data;
 
-    public InputStepData(List<Object[]> data) {
+    public InputStepData(List<List<Object>> data) {
         this.data = data;
     }
 

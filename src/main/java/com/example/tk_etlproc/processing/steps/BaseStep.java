@@ -5,6 +5,8 @@ import com.example.tk_etlproc.processing.InputStepMeta;
 import com.example.tk_etlproc.processing.OutputFromStep;
 import lombok.Setter;
 
+import java.util.List;
+
 @Setter
 public abstract class BaseStep {
     protected InputStepData inputStepData;
@@ -18,13 +20,14 @@ public abstract class BaseStep {
         this.inputStepMeta = inputStepMeta;
     }
     public OutputFromStep processData(){
-        for (Object[] row: inputStepData.getData()){
+        for (List<Object> row: inputStepData.getData()){
             row = processRow(row);
         }
 
         return new OutputFromStep(this.inputStepData, this.inputStepMeta);
     }
-    protected Object[] processRow(Object[] row){
+    protected List<Object> processRow(List<Object> row){
         return null;
     }
+    protected void modifyMeta(){}
 }

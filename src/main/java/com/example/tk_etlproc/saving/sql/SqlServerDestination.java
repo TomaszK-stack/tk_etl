@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 @AllArgsConstructor
 public class SqlServerDestination extends BaseDestination {
@@ -55,7 +56,7 @@ public class SqlServerDestination extends BaseDestination {
 
         int row_number = 1;
         int cell_number = 1;
-        for(Object[] row : inputStepData.getData()){
+        for(List<Object> row : inputStepData.getData()){
             if(row_number==1) {
                 if(!header) {
                     for (Object cell : row) {
@@ -69,6 +70,7 @@ public class SqlServerDestination extends BaseDestination {
             }else{
                 for (Object cell : row) {
                     statement.setObject(cell_number,cell);
+                    System.out.println(cell);
                     cell_number++;
 
                 }
