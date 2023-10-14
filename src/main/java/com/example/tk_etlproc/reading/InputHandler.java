@@ -39,8 +39,10 @@ public class InputHandler {
             step.setInputStepData(inputStepData);
             outputList.add(step.processData());
         }
-        BaseDestination destination = destinationReader.readDestinationConfig(baseDTO.getDestinationType(), baseDTO.getDestinationElementsList());
-        destination.save(inputStepData, inputStepMeta, header);
+        if(baseDTO.getDestinationType() != null) {
+            BaseDestination destination = destinationReader.readDestinationConfig(baseDTO.getDestinationType(), baseDTO.getDestinationElementsList());
+            destination.save(inputStepData, inputStepMeta, header);
+        }
         return outputList;
 
 

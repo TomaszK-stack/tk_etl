@@ -70,7 +70,6 @@ public class SqlServerDestination extends BaseDestination {
             }else{
                 for (Object cell : row) {
                     statement.setObject(cell_number,cell);
-                    System.out.println(cell);
                     cell_number++;
 
                 }

@@ -30,4 +30,6 @@ public abstract class BaseStep {
         return null;
     }
     protected void modifyMeta(){}
+
+    protected void prepareData(){}
 }

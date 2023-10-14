@@ -1,52 +1,66 @@
 package com.example.tk_etlproc.processing.steps.join;
 import com.example.tk_etlproc.processing.InputStepMeta;
 import com.example.tk_etlproc.processing.steps.BaseStep;
-import lombok.Builder;
 import lombok.Data;
-
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Data
-@Builder
 public class JoinColumnsStep extends BaseStep {
     private JoinColumnStepMeta joinStepMeta;
     private List<Integer> columntToJoinIndexes;
+    private List<Integer> columntToRemoveIndexes;
 
     public JoinColumnsStep(JoinColumnStepMeta joinStepMeta) {
         this.joinStepMeta = joinStepMeta;
-        this.columntToJoinIndexes = new ArrayList<>();
-        prepareData();
-
+        columntToJoinIndexes = new ArrayList<>();
+        columntToRemoveIndexes = new ArrayList<>();
     }
+
 
     @Override
     protected List<Object> processRow(List<Object> row) {
         StringBuilder valueToAdd = new StringBuilder();
+        Iterator<Integer> iterator = columntToJoinIndexes.iterator();
+        Iterator<Integer> iterator2 = columntToRemoveIndexes.iterator();
+        while (iterator.hasNext() && iterator2.hasNext()){
+            int i = iterator.next();
+            if(row.get(i) !=null) {
+                valueToAdd.append(row.get(i));
+            }
+            row.remove(iterator2.next().intValue());
 
-        for (Integer i : columntToJoinIndexes) {
-            valueToAdd.append(row.get(i));
-            row.remove(i);
         }
-        row.add(valueToAdd.toString());
+        row.add(row.size(), valueToAdd.toString());
         return row;
 
     }
 
-    private void prepareData() {
+    protected void prepareData() {
         for (String column : joinStepMeta.getColumnsToJoinList()) {
-            columntToJoinIndexes.add(this.inputStepMeta.getColumnNames().indexOf(column));
+            columntToJoinIndexes.add(inputStepMeta.getColumnNames().indexOf(column));
         }
     }
 
     @Override
     protected void modifyMeta() {
-        this.columntToJoinIndexes.forEach(i -> this.inputStepMeta.getColumnNames().remove(i));
+//        columntToJoinIndexes.forEach(i -> inputStepMeta.getColumnNames().remove(i.intValue()));
+        for (String column: joinStepMeta.getColumnsToJoinList()){
+            int i = inputStepMeta.getColumnNames().indexOf(column);
+            inputStepMeta.getColumnNames().remove(i);
+            columntToRemoveIndexes.add(i);
+        }
+        inputStepMeta.getColumnNames().add(joinStepMeta.getNewColumnName());
+        inputStepMeta.setColumnNumber(inputStepMeta.getColumnNames().size());
     }
 
     @Override
     public void setInputStepMeta(InputStepMeta inputStepMeta) {
         super.setInputStepMeta(inputStepMeta);
+        prepareData();
         modifyMeta();
+
+
     }
 }

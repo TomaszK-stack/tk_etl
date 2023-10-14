@@ -20,6 +20,10 @@ public class NullifStep extends BaseStep {
     }
 
 
+    public NullifStep(InputStepData inputStepData, InputStepMeta inputStepMeta, NullifStepMeta nullifStepMeta) {
+        super(inputStepData, inputStepMeta);
+        this.nullifStepMeta = nullifStepMeta;
+    }
 
     @Override
     public OutputFromStep processData() {

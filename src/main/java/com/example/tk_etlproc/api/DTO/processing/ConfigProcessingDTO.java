@@ -8,6 +8,6 @@ import java.util.List;
 
 @Data
 public class ConfigProcessingDTO {
-    public HashMap<String, List<String>> configProcessmap;
+    public HashMap<String, HashMap<String, Object>> configProcessmap;
 
 }
