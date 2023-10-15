@@ -11,4 +11,11 @@ public class OutputFromStep {
         this.inputStepMeta = inputStepMeta;
     }
 
+    @Override
+    public String toString() {
+        return "OutputFromStep{" +
+                "inputStepData=" + inputStepData.data +
+                ", inputStepMeta=" + inputStepMeta +
+                '}';
+    }
 }

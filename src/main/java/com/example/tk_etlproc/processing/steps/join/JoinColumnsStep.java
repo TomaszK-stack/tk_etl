@@ -9,12 +9,10 @@ import java.util.List;
 @Data
 public class JoinColumnsStep extends BaseStep {
     private JoinColumnStepMeta joinStepMeta;
-    private List<Integer> columntToJoinIndexes;
     private List<Integer> columntToRemoveIndexes;
 
     public JoinColumnsStep(JoinColumnStepMeta joinStepMeta) {
         this.joinStepMeta = joinStepMeta;
-        columntToJoinIndexes = new ArrayList<>();
         columntToRemoveIndexes = new ArrayList<>();
     }
 
@@ -22,26 +20,20 @@ public class JoinColumnsStep extends BaseStep {
     @Override
     protected List<Object> processRow(List<Object> row) {
         StringBuilder valueToAdd = new StringBuilder();
-        Iterator<Integer> iterator = columntToJoinIndexes.iterator();
         Iterator<Integer> iterator2 = columntToRemoveIndexes.iterator();
-        while (iterator.hasNext() && iterator2.hasNext()){
-            int i = iterator.next();
+        while (iterator2.hasNext()){
+            int i = iterator2.next();
             if(row.get(i) !=null) {
                 valueToAdd.append(row.get(i));
             }
-            row.remove(iterator2.next().intValue());
-
+            row.remove(i);
         }
         row.add(row.size(), valueToAdd.toString());
         return row;
 
     }
 
-    protected void prepareData() {
-        for (String column : joinStepMeta.getColumnsToJoinList()) {
-            columntToJoinIndexes.add(inputStepMeta.getColumnNames().indexOf(column));
-        }
-    }
+
 
     @Override
     protected void modifyMeta() {
