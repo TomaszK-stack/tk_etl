@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 @Builder
 @Data
-public class InputStepData {
+public class InputStepData implements Cloneable {
 
     public List<List<Object>> data;
 
@@ -17,11 +17,13 @@ public class InputStepData {
         this.data = data;
     }
 
-//    public void printData(){
-//        for (String[] row: data){
-//            Arrays.stream(row).forEach(System.out::print);
-//        }
-//    }
-
-
+    @Override
+    public InputStepData clone() {
+        try {
+            InputStepData clone = (InputStepData) super.clone();
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }

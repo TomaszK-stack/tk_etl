@@ -7,5 +7,6 @@ import com.example.tk_etlproc.processing.steps.BaseStep;
 import java.util.List;
 
 public interface ConfigReader {
-    List<BaseStep> readConfig(ConfigProcessingDTO processingDTO) throws StepNotFoundException;
+     List<BaseStep> readConfig(ConfigProcessingDTO processingDTO) throws StepNotFoundException;
+
 }

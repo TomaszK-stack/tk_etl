@@ -1,5 +1,6 @@
 package com.example.tk_etlproc.processing.steps;
 
+import com.example.tk_etlproc.exceptions.InvalidColumnNameException;
 import com.example.tk_etlproc.processing.InputStepData;
 import com.example.tk_etlproc.processing.InputStepMeta;
 import com.example.tk_etlproc.processing.OutputFromStep;
@@ -19,7 +20,7 @@ public abstract class BaseStep {
         this.inputStepData = inputStepData;
         this.inputStepMeta = inputStepMeta;
     }
-    public OutputFromStep processData(){
+    public OutputFromStep processData() throws InvalidColumnNameException {
         for (List<Object> row: inputStepData.getData()){
             row = processRow(row);
         }

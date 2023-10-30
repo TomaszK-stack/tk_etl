@@ -22,7 +22,9 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+
         </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -70,9 +72,19 @@
             <artifactId>fastexcel</artifactId>
             <version>0.15.3</version>
         </dependency>
-
-<!--  -->
-
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+            <version>3.0.12</version>
+        </dependency>
+<!--&lt;!&ndash;  &ndash;&gt;-->
+<!--jpa-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>3.1.5</version>
+        </dependency>
+<!--        -->
     </dependencies>
 
     <build>

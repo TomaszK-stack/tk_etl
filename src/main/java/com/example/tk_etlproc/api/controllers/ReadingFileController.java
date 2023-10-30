@@ -1,6 +1,7 @@
 package com.example.tk_etlproc.api.controllers;
 
 import com.example.tk_etlproc.api.DTO.source.ConfigFileDTO;
+import com.example.tk_etlproc.exceptions.InvalidColumnNameException;
 import com.example.tk_etlproc.exceptions.StepNotFoundException;
 import com.example.tk_etlproc.processing.OutputFromStep;
 import com.example.tk_etlproc.reading.sources.file.FileCSVSource;
@@ -30,12 +31,12 @@ public class ReadingFileController {
 
 
     @PostMapping("/csv")
-    public ResponseEntity<List<OutputFromStep>> fileCSVConfig(@RequestBody ConfigFileDTO configDTO) throws IOException, StepNotFoundException, SQLException, ClassNotFoundException {
+    public ResponseEntity<List<OutputFromStep>> fileCSVConfig(@RequestBody ConfigFileDTO configDTO) throws IOException, StepNotFoundException, SQLException, ClassNotFoundException, InvalidColumnNameException {
         return ResponseEntity.ok(fileCSVSource.read(configDTO));
 
     }
     @PostMapping("/xlsx")
-    public ResponseEntity<List<OutputFromStep>> fileXLSXConfig(@RequestBody ConfigFileDTO configDTO) throws IOException, StepNotFoundException, SQLException, ClassNotFoundException {
+    public ResponseEntity<List<OutputFromStep>> fileXLSXConfig(@RequestBody ConfigFileDTO configDTO) throws IOException, StepNotFoundException, SQLException, ClassNotFoundException, InvalidColumnNameException {
         return ResponseEntity.ok(fileXLSXSource.read(configDTO));
     }
 

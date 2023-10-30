@@ -1,6 +1,7 @@
 package com.example.tk_etlproc.api.controllers;
 
 import com.example.tk_etlproc.api.DTO.source.ConfigDatabaseDTO;
+import com.example.tk_etlproc.exceptions.InvalidColumnNameException;
 import com.example.tk_etlproc.exceptions.StepNotFoundException;
 import com.example.tk_etlproc.processing.OutputFromStep;
 import com.example.tk_etlproc.reading.sources.sql.SqlServerSource;
@@ -24,7 +25,7 @@ public class ReadingSqlController {
     }
 
     @PostMapping("/sqlserver")
-    public ResponseEntity<List<OutputFromStep>> sqlServerGetData(@RequestBody ConfigDatabaseDTO configDTO) throws ClassNotFoundException, SQLException, StepNotFoundException {
+    public ResponseEntity<List<OutputFromStep>> sqlServerGetData(@RequestBody ConfigDatabaseDTO configDTO) throws ClassNotFoundException, SQLException, StepNotFoundException, InvalidColumnNameException {
         return ResponseEntity.ok(sqlServerSource.read(configDTO));
     }
 }

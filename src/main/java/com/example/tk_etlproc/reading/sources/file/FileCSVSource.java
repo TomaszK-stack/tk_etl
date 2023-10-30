@@ -1,6 +1,7 @@
 package com.example.tk_etlproc.reading.sources.file;
 
 import com.example.tk_etlproc.api.DTO.source.ConfigFileDTO;
+import com.example.tk_etlproc.exceptions.InvalidColumnNameException;
 import com.example.tk_etlproc.exceptions.StepNotFoundException;
 import com.example.tk_etlproc.processing.OutputFromStep;
 import com.example.tk_etlproc.reading.InputHandler;
@@ -22,10 +23,9 @@ public class FileCSVSource implements FileSource {
     }
 
     @Override
-    public List<OutputFromStep> read(ConfigFileDTO configFileDTO) throws FileNotFoundException, StepNotFoundException, SQLException, ClassNotFoundException {
+    public List<OutputFromStep> read(ConfigFileDTO configFileDTO) throws FileNotFoundException, StepNotFoundException, SQLException, ClassNotFoundException, InvalidColumnNameException {
         StringBuilder data = get_data_from_file(configFileDTO.getPath());
         return inputHandler.handle_data( data,configFileDTO.getDelimiter(), configFileDTO.isHeader(), configFileDTO);
-
     }
 
     public StringBuilder get_data_from_file(String path) throws FileNotFoundException {

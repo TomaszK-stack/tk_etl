@@ -1,6 +1,7 @@
 package com.example.tk_etlproc.reading.sources.sql;
 
 import com.example.tk_etlproc.api.DTO.source.ConfigDatabaseDTO;
+import com.example.tk_etlproc.exceptions.InvalidColumnNameException;
 import com.example.tk_etlproc.exceptions.StepNotFoundException;
 import com.example.tk_etlproc.processing.OutputFromStep;
 import com.example.tk_etlproc.reading.InputHandler;
@@ -20,7 +21,7 @@ public class SqlServerSource implements SqlSource {
     }
 
     @Override
-    public List<OutputFromStep> read(ConfigDatabaseDTO configDTO) throws ClassNotFoundException, SQLException, StepNotFoundException {
+    public List<OutputFromStep> read(ConfigDatabaseDTO configDTO) throws ClassNotFoundException, SQLException, StepNotFoundException, InvalidColumnNameException {
         String Connectionurl="jdbc:sqlserver://" + configDTO.getHost()
                 + ":"  + configDTO.getPort()
                 + ";DatabaseName=" + configDTO.getDatabaseName()

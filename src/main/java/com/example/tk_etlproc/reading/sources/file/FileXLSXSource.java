@@ -1,6 +1,7 @@
 package com.example.tk_etlproc.reading.sources.file;
 
 import com.example.tk_etlproc.api.DTO.source.ConfigFileDTO;
+import com.example.tk_etlproc.exceptions.InvalidColumnNameException;
 import com.example.tk_etlproc.exceptions.StepNotFoundException;
 import com.example.tk_etlproc.processing.OutputFromStep;
 import com.example.tk_etlproc.reading.InputHandler;
@@ -21,7 +22,7 @@ public class FileXLSXSource implements FileSource{
     }
 
     @Override
-    public List<OutputFromStep> read(ConfigFileDTO configFileDTO) throws IOException, StepNotFoundException, SQLException, ClassNotFoundException {
+    public List<OutputFromStep> read(ConfigFileDTO configFileDTO) throws IOException, StepNotFoundException, SQLException, ClassNotFoundException, InvalidColumnNameException {
         StringBuilder data = get_data_from_file(configFileDTO.getPath());
         return inputHandler.handle_data(data,",", configFileDTO.header,configFileDTO);
     }
