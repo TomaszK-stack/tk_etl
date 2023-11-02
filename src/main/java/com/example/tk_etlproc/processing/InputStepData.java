@@ -5,11 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 @Builder
 @Data
-public class InputStepData implements Cloneable {
+public class InputStepData  {
 
     public List<List<Object>> data;
 
@@ -17,13 +18,14 @@ public class InputStepData implements Cloneable {
         this.data = data;
     }
 
-    @Override
-    public InputStepData clone() {
-        try {
-            InputStepData clone = (InputStepData) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
+    public InputStepData(InputStepData inputStepData) {
+        List<List<Object>> newData = new ArrayList<>();
+
+        for (List<Object> row: inputStepData.getData()){
+            newData.add(new ArrayList<>(row));
         }
+        this.data = newData;
     }
+
+
 }

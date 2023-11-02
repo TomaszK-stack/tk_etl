@@ -1,24 +1,23 @@
 package com.example.tk_etlproc.processing;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
 @Data
-public class InputStepMeta implements Cloneable {
+@NoArgsConstructor
+@AllArgsConstructor
+public class InputStepMeta  {
     private int columnNumber;
     private List<String> columnNames;
 
-
-    @Override
-    public InputStepMeta clone() {
-        try {
-            InputStepMeta clone = (InputStepMeta) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
-        }
+    public InputStepMeta(InputStepMeta inputStepMeta) {
+        this.columnNumber = inputStepMeta.getColumnNumber();
+        this.columnNames = new ArrayList<>(inputStepMeta.getColumnNames());
     }
 }

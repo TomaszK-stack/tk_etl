@@ -32,6 +32,7 @@ public class ReadingFileController {
 
     @PostMapping("/csv")
     public ResponseEntity<List<OutputFromStep>> fileCSVConfig(@RequestBody ConfigFileDTO configDTO) throws IOException, StepNotFoundException, SQLException, ClassNotFoundException, InvalidColumnNameException {
+        System.out.println(configDTO.getConfigProcessingDTO().getConfigProcessmap());
         return ResponseEntity.ok(fileCSVSource.read(configDTO));
 
     }

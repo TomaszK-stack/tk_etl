@@ -1,14 +1,17 @@
 package com.example.tk_etlproc.processing.steps;
 
 import com.example.tk_etlproc.exceptions.InvalidColumnNameException;
+import com.example.tk_etlproc.exceptions.InvalidOperationNameException;
 import com.example.tk_etlproc.processing.InputStepData;
 import com.example.tk_etlproc.processing.InputStepMeta;
 import com.example.tk_etlproc.processing.OutputFromStep;
+import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
 
 @Setter
+@Getter
 public abstract class BaseStep {
     protected InputStepData inputStepData;
     protected InputStepMeta inputStepMeta;
@@ -20,7 +23,7 @@ public abstract class BaseStep {
         this.inputStepData = inputStepData;
         this.inputStepMeta = inputStepMeta;
     }
-    public OutputFromStep processData() throws InvalidColumnNameException {
+    public OutputFromStep processData()   {
         for (List<Object> row: inputStepData.getData()){
             row = processRow(row);
         }

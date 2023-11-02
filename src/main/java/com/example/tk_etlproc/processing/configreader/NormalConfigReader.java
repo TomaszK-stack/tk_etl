@@ -2,6 +2,8 @@ package com.example.tk_etlproc.processing.configreader;
 import com.example.tk_etlproc.api.DTO.processing.ConfigProcessingDTO;
 import com.example.tk_etlproc.exceptions.StepNotFoundException;
 import com.example.tk_etlproc.processing.steps.BaseStep;
+import com.example.tk_etlproc.processing.steps.groupby.GroupByStep;
+import com.example.tk_etlproc.processing.steps.groupby.GroupByStepMeta;
 import com.example.tk_etlproc.processing.steps.join.JoinColumnStepMeta;
 import com.example.tk_etlproc.processing.steps.join.JoinColumnsStep;
 import com.example.tk_etlproc.processing.steps.nullif.NullifStep;
@@ -43,6 +45,14 @@ public class NormalConfigReader implements ConfigReader {
                         .build();
                 JoinColumnsStep joinColumnsStep = new JoinColumnsStep(joinColumnStepMeta);
                 return joinColumnsStep;
+            case "groupby":
+                GroupByStepMeta groupByStepMeta =  GroupByStepMeta.builder()
+                        .columnTogroup((String) stepMetaList.get("columnToGroup"))
+                        .OperationColumn((String) stepMetaList.get("operationColumn"))
+                        .operation((String) stepMetaList.get("operation"))
+                        .build();
+                GroupByStep groupByStep = new GroupByStep(groupByStepMeta);
+                return groupByStep;
 //                cases....
                     default:
                 throw new StepNotFoundException("Invalid step name");

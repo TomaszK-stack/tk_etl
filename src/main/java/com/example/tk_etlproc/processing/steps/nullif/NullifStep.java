@@ -32,8 +32,10 @@ public class NullifStep extends BaseStep {
         int columnToChangeIndex = 0;
 
         columnToChangeIndex = headerRow.indexOf(nullifStepMeta.getColumnName());
-        expressionColumnIndex = headerRow.indexOf(nullifStepMeta.getColumnName());
-
+        expressionColumnIndex = headerRow.indexOf(nullifStepMeta.getColumnNameValueExpression());
+        if(columnToChangeIndex == -1 || expressionColumnIndex == -1){
+            throw new IllegalArgumentException("You typed invalid column name in nullif statement");
+        }
 
         for(List<Object> s: inputStepData.getData()){
             if(s.get(expressionColumnIndex).equals(nullifStepMeta.getValueLogicExpression())) s.set(columnToChangeIndex, null);

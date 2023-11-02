@@ -25,7 +25,7 @@ public class OutputFromStep {
     public String returnData(){
         StringBuilder dataBuilder = new StringBuilder();
 
-        for(List<Object> row: inputStepData.getData().stream().limit(30).toList()){
+        for(List<Object> row: inputStepData.getData().stream().limit(10).toList()){
             dataBuilder.append(row);
             dataBuilder.append(System.getProperty("line.separator"));
 

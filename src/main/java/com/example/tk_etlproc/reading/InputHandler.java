@@ -3,6 +3,7 @@ package com.example.tk_etlproc.reading;
 
 import com.example.tk_etlproc.api.DTO.source.BaseDTO;
 import com.example.tk_etlproc.exceptions.InvalidColumnNameException;
+import com.example.tk_etlproc.exceptions.InvalidOperationNameException;
 import com.example.tk_etlproc.exceptions.StepNotFoundException;
 import com.example.tk_etlproc.processing.InputStepData;
 import com.example.tk_etlproc.processing.InputStepMeta;
@@ -30,15 +31,17 @@ public class InputHandler {
     }
 
 
-    public List<OutputFromStep> handle_data(StringBuilder data, String delimiter, boolean header, BaseDTO baseDTO) throws StepNotFoundException, SQLException, ClassNotFoundException, InvalidColumnNameException {
+    public List<OutputFromStep> handle_data(StringBuilder data, String delimiter, boolean header, BaseDTO baseDTO) throws StepNotFoundException, SQLException, ClassNotFoundException  {
         InputStepData inputStepData = prepare_data(data, delimiter, header);
         InputStepMeta inputStepMeta = prepareMeta(inputStepData, header);
         List<BaseStep> stepList = configReader.readConfig(baseDTO.getConfigProcessingDTO());
         List<OutputFromStep> outputList = new ArrayList<>();
         for (BaseStep step : stepList) {
-            step.setInputStepMeta(inputStepMeta.clone());
-            step.setInputStepData(inputStepData.clone());
+            step.setInputStepMeta(new InputStepMeta(inputStepMeta));
+            step.setInputStepData(new InputStepData(inputStepData));
             outputList.add(step.processData());
+            inputStepData = step.getInputStepData();
+            inputStepMeta = step.getInputStepMeta();
         }
         if(baseDTO.getDestinationType() != null) {
             BaseDestination destination = destinationReader.readDestinationConfig(baseDTO.getDestinationType(), baseDTO.getDestinationElementsList());
