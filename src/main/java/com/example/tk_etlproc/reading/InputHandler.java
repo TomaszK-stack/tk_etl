@@ -45,7 +45,7 @@ public class InputHandler {
         }
         if(baseDTO.getDestinationType() != null) {
             BaseDestination destination = destinationReader.readDestinationConfig(baseDTO.getDestinationType(), baseDTO.getDestinationElementsList());
-//            destination.save(inputStepData, inputStepMeta, header);
+            destination.save(inputStepData, inputStepMeta, header);
         }
 
         return outputList;
@@ -81,9 +81,9 @@ public class InputHandler {
                 columnList.add("col" + i);
 
             }
-            inputStepData.getData().remove(0);
-        }
 
+        }
+        inputStepData.getData().remove(0);
         return InputStepMeta.builder()
                 .columnNumber(columnList.size())
                 .columnNames(columnList)

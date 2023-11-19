@@ -27,7 +27,7 @@ public class NullifStep extends BaseStep {
 
     @Override
     public OutputFromStep processData() {
-        List<Object> headerRow =  this.inputStepData.getData().get(0);
+        List<String> headerRow =  inputStepMeta.getColumnNames();
         int expressionColumnIndex = 0;
         int columnToChangeIndex = 0;
 

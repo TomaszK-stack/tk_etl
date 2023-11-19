@@ -10,7 +10,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
-
 @AllArgsConstructor
 public class SqlServerDestination extends BaseDestination {
 
