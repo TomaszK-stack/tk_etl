@@ -1,4 +1,4 @@
-package com.example.tk_etlproc.api.controllers;
+package com.example.tk_etlproc.api.controllers.onetime;
 
 import com.example.tk_etlproc.api.DTO.source.ConfigDatabaseDTO;
 import com.example.tk_etlproc.exceptions.InvalidColumnNameException;

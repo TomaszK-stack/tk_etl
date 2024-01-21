@@ -1,4 +1,6 @@
 package com.example.tk_etlproc.api.DTO.destination;
 
-public interface BaseDestinationEndpoint {
+import java.io.Serializable;
+
+public interface BaseDestinationEndpoint extends Serializable {
 }

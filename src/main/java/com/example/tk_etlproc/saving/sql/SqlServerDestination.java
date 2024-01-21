@@ -29,7 +29,8 @@ public class SqlServerDestination extends BaseDestination {
                 + ":"  + port
                 + ";DatabaseName=" + databaseName
                 + ";user=" + user
-                + ";password=" + password;
+                + ";password=" + password
+                +";encrypt=true;trustServerCertificate=true";
 
 
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
