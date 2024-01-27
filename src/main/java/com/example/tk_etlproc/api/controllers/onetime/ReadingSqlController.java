@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class ReadingSqlController {
     }
 
     @PostMapping("/sqlserver")
-    public ResponseEntity<List<OutputFromStep>> sqlServerGetData(@RequestBody ConfigDatabaseDTO configDTO) throws ClassNotFoundException, SQLException, StepNotFoundException, InvalidColumnNameException {
+    public ResponseEntity<List<OutputFromStep>> sqlServerGetData(@RequestBody ConfigDatabaseDTO configDTO) throws ClassNotFoundException, SQLException, StepNotFoundException, InvalidColumnNameException, IOException {
         return ResponseEntity.ok(sqlServerSource.read(configDTO));
     }
 }

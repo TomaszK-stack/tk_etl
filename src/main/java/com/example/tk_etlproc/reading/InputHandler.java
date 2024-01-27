@@ -15,6 +15,7 @@ import com.example.tk_etlproc.saving.DestinationReader;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -31,7 +32,7 @@ public class InputHandler {
     }
 
 
-    public List<OutputFromStep> handle_data(StringBuilder data, String delimiter, boolean header, BaseDTO baseDTO) throws StepNotFoundException, SQLException, ClassNotFoundException  {
+    public List<OutputFromStep> handle_data(StringBuilder data, String delimiter, boolean header, BaseDTO baseDTO) throws StepNotFoundException, SQLException, ClassNotFoundException, IOException {
         InputStepData inputStepData = prepare_data(data, delimiter, header);
         InputStepMeta inputStepMeta = prepareMeta(inputStepData, header);
         List<BaseStep> stepList = configReader.readConfig(baseDTO.getConfigProcessingDTO());

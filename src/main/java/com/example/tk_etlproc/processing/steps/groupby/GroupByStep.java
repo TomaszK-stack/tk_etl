@@ -90,7 +90,7 @@ public class GroupByStep extends BaseStep {
                     operationRow.set(operationIndex, newValue);
                     averageMap.put(row.get(groupIndex), averageMap.get(row.get(groupIndex)) + 1);
                 }catch (ClassCastException e){
-                    throw new ClassCastException("You Can not sum values of columns of index " + operationIndex);
+                    throw new ClassCastException("You Can not get avg values of columns of index " + operationIndex);
                 }
 
             } else  {

@@ -20,7 +20,6 @@ public class ConfigDatabaseDTO extends BaseDTO {
     public String password;
 
     public String interface_name;
-    public ConfigProcessingDTO configProcessingDTO;
 
 
 

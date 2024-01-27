@@ -41,6 +41,7 @@ public class FileReaderJob implements Job {
            String fileName = file.getName();
            Path sentdir = Path.of(config.getSentdir() + "\\" + fileName);
            Files.move(path, sentdir, StandardCopyOption.REPLACE_EXISTING);
+           System.out.println("Job done succesfully");
        }
 
 

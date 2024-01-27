@@ -3,6 +3,7 @@ package com.example.tk_etlproc.saving;
 import com.example.tk_etlproc.exceptions.StepNotFoundException;
 import com.example.tk_etlproc.processing.steps.nullif.NullifStep;
 import com.example.tk_etlproc.processing.steps.nullif.NullifStepMeta;
+import com.example.tk_etlproc.saving.file.FileDestination;
 import com.example.tk_etlproc.saving.sql.SqlServerDestination;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,8 @@ public class DestinationReader {
 
                 return new SqlServerDestination(destinationElements.get(0), destinationElements.get(1), destinationElements.get(2), destinationElements.get(3), destinationElements.get(4), destinationElements.get(5));
 
-
+            case "file":
+                return new FileDestination(destinationElements.get(0), destinationElements.get(1));
             default:
                 throw new StepNotFoundException("Invalid step name");
 
