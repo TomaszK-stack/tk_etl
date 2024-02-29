@@ -2,8 +2,7 @@ package com.example.tk_etlproc.api.controllers.scheduling;
 
 import com.example.tk_etlproc.api.DTO.schedule.SqlScheduleDTO;
 import com.example.tk_etlproc.scheduling.services.ScheduleService;
-import org.quartz.*;
-
+import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -54,30 +54,21 @@ public class SqlServerDestination extends BaseDestination {
         sql=sql + sql2 + ")";
         PreparedStatement statement = connection.prepareStatement(sql);
 
-        int row_number = 1;
         int cell_number = 1;
         for(List<Object> row : inputStepData.getData()){
-            if(row_number==1) {
-                if(!header) {
-                    for (Object cell : row) {
-                        statement.setObject(cell_number,cell);
-                        cell_number++;
-                    }
-                    statement.executeUpdate();
-                    cell_number = 1;
+            for (Object cell : row) {
+                if (cell.equals("null")){
+                    cell = null;
                 }
+                statement.setObject(cell_number,cell);
+                cell_number++;
 
-            }else{
-                for (Object cell : row) {
-                    statement.setObject(cell_number,cell);
-                    cell_number++;
-
-                }
-                statement.executeUpdate();
-                cell_number = 1;
             }
-            row_number++;
+            System.out.println(sql);
+            statement.executeUpdate();
+            cell_number = 1;
+            }
         }
 
     }
-}
+

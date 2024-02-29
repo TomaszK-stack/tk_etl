@@ -4,7 +4,8 @@ import com.example.tk_etlproc.api.DTO.source.ConfigDatabaseDTO;
 import com.example.tk_etlproc.exceptions.InvalidColumnNameException;
 import com.example.tk_etlproc.exceptions.StepNotFoundException;
 import com.example.tk_etlproc.processing.OutputFromStep;
-import com.example.tk_etlproc.reading.sources.sql.SqlServerSource;
+import com.example.tk_etlproc.reading.sources.sql.SqlSourceDefault;
+import com.example.tk_etlproc.reading.sources.sql.SqlType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,14 +20,14 @@ import java.util.List;
 @RequestMapping("config/sql")
 public class ReadingSqlController {
 
-     public SqlServerSource sqlServerSource;
+     public SqlSourceDefault SqlSourceDefault;
 
-    public ReadingSqlController(SqlServerSource sqlServerSource) {
-        this.sqlServerSource = sqlServerSource;
+    public ReadingSqlController(SqlSourceDefault SqlSourceDefault) {
+        this.SqlSourceDefault = SqlSourceDefault;
     }
 
     @PostMapping("/sqlserver")
     public ResponseEntity<List<OutputFromStep>> sqlServerGetData(@RequestBody ConfigDatabaseDTO configDTO) throws ClassNotFoundException, SQLException, StepNotFoundException, InvalidColumnNameException, IOException {
-        return ResponseEntity.ok(sqlServerSource.read(configDTO));
+        return ResponseEntity.ok(SqlSourceDefault.read(configDTO, SqlType.SQL_SERVER));
     }
 }

@@ -6,6 +6,7 @@ import com.example.tk_etlproc.reading.sources.file.FileCSVSource;
 import com.example.tk_etlproc.reading.sources.file.FileXLSXSource;
 import com.example.tk_etlproc.scheduling.JobDataStore;
 import lombok.SneakyThrows;
+import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -16,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
+@DisallowConcurrentExecution
 public class FileReaderJob implements Job {
 
     private FileCSVSource fileCSVSource;
@@ -40,8 +42,9 @@ public class FileReaderJob implements Job {
            }
            String fileName = file.getName();
            Path sentdir = Path.of(config.getSentdir() + "\\" + fileName);
-           Files.move(path, sentdir, StandardCopyOption.REPLACE_EXISTING);
            System.out.println("Job done succesfully");
+           Files.move(path, sentdir, StandardCopyOption.REPLACE_EXISTING);
+
        }
 
 

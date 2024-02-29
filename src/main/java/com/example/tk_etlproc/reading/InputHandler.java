@@ -2,8 +2,8 @@ package com.example.tk_etlproc.reading;
 
 
 import com.example.tk_etlproc.api.DTO.source.BaseDTO;
-import com.example.tk_etlproc.exceptions.InvalidColumnNameException;
-import com.example.tk_etlproc.exceptions.InvalidOperationNameException;
+import com.example.tk_etlproc.archive.manager.ArchiveManager;
+import com.example.tk_etlproc.archive.save.ArchiveSaveType;
 import com.example.tk_etlproc.exceptions.StepNotFoundException;
 import com.example.tk_etlproc.processing.InputStepData;
 import com.example.tk_etlproc.processing.InputStepMeta;
@@ -12,12 +12,14 @@ import com.example.tk_etlproc.processing.configreader.NormalConfigReader;
 import com.example.tk_etlproc.processing.steps.BaseStep;
 import com.example.tk_etlproc.saving.BaseDestination;
 import com.example.tk_etlproc.saving.DestinationReader;
-import org.apache.poi.ss.formula.functions.T;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class InputHandler {
@@ -26,9 +28,13 @@ public class InputHandler {
 
     private DestinationReader destinationReader;
 
-    public InputHandler(NormalConfigReader configReader, DestinationReader destinationReader) {
+    private ArchiveManager archiveManager;
+
+    @Autowired
+    public InputHandler(NormalConfigReader configReader, DestinationReader destinationReader, ArchiveManager archiveManager) {
         this.configReader = configReader;
         this.destinationReader = destinationReader;
+        this.archiveManager = archiveManager;
     }
 
 
@@ -48,7 +54,7 @@ public class InputHandler {
             BaseDestination destination = destinationReader.readDestinationConfig(baseDTO.getDestinationType(), baseDTO.getDestinationElementsList());
             destination.save(inputStepData, inputStepMeta, header);
         }
-
+        archiveManager.saveArchive(prepareArchive(inputStepData, inputStepMeta, delimiter), ArchiveSaveType.OUT);
         return outputList;
 
 
@@ -90,6 +96,21 @@ public class InputHandler {
                 .columnNames(columnList)
                 .build();
 
+    }
+    private StringBuilder prepareArchive(InputStepData data, InputStepMeta meta,  String delimiter){
+        StringBuilder archiveData = new StringBuilder();
+        archiveData.append(meta.getColumnNames().toString()
+                .replace(",",delimiter)
+                .replace("[", "")
+                .replace("]", "") + "\n");
+
+        data.getData().forEach(row->archiveData.append(
+                row.toString()
+                        .replace(",",delimiter)
+                        .replace("[", "")
+                        .replace("]", "") + "\n"
+        ));
+        return archiveData;
     }
 
 

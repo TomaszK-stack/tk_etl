@@ -1,7 +1,7 @@
 package com.example.tk_etlproc.scheduling.services;
 
 import com.example.tk_etlproc.api.DTO.schedule.BaseScheduleDTO;
-import com.example.tk_etlproc.api.DTO.schedule.SqlScheduleDTO;
+import com.example.tk_etlproc.scheduling.JobDataStore;
 import com.example.tk_etlproc.scheduling.jobs.FileReaderJob;
 import com.example.tk_etlproc.scheduling.jobs.SqlServerReaderJob;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -9,7 +9,6 @@ import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
-import com.example.tk_etlproc.scheduling.JobDataStore;
 
 import java.util.HashMap;
 

@@ -16,5 +16,7 @@ public abstract class BaseDTO implements Serializable {
     public String destinationType;
     public List<String> destinationElementsList;
 
+    public boolean archivePayload = true;
+
 
 }

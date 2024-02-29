@@ -4,9 +4,7 @@ package com.example.tk_etlproc.processing;
 import lombok.Builder;
 import lombok.Data;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 @Builder
 @Data

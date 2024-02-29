@@ -1,11 +1,11 @@
 package com.example.tk_etlproc.reading.sources.file;
 
 import com.example.tk_etlproc.api.DTO.source.ConfigFileDTO;
+import com.example.tk_etlproc.archive.manager.ArchiveManager;
 import com.example.tk_etlproc.exceptions.InvalidColumnNameException;
 import com.example.tk_etlproc.exceptions.StepNotFoundException;
 import com.example.tk_etlproc.processing.OutputFromStep;
 import com.example.tk_etlproc.reading.InputHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -16,15 +16,19 @@ import java.util.List;
 import java.util.Scanner;
 
 @Service
-public class FileCSVSource implements FileSource {
+public class FileCSVSource extends FileSource {
     private InputHandler inputHandler;
-    @Autowired
-    public FileCSVSource(InputHandler inputHandler) {
+
+
+    public FileCSVSource(ArchiveManager manager, InputHandler inputHandler ) {
+        super(manager);
         this.inputHandler = inputHandler;
+
     }
 
     @Override
-    public List<OutputFromStep> read(ConfigFileDTO configFileDTO) throws IOException, StepNotFoundException, SQLException, ClassNotFoundException {
+    public List<OutputFromStep> read(ConfigFileDTO configFileDTO) throws IOException, StepNotFoundException, SQLException, ClassNotFoundException, InvalidColumnNameException {
+        super.read(configFileDTO);
         StringBuilder data = get_data_from_file(configFileDTO.getPath());
         return inputHandler.handle_data( data,configFileDTO.getDelimiter(), configFileDTO.isHeader(), configFileDTO);
     }

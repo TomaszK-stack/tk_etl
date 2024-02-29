@@ -1,6 +1,5 @@
 package com.example.tk_etlproc.api.DTO.source;
 
-import com.example.tk_etlproc.api.DTO.processing.ConfigProcessingDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,14 +1,20 @@
 package com.example.tk_etlproc.processing.configreader;
+
 import com.example.tk_etlproc.api.DTO.processing.ConfigProcessingDTO;
 import com.example.tk_etlproc.exceptions.StepNotFoundException;
 import com.example.tk_etlproc.processing.steps.BaseStep;
+import com.example.tk_etlproc.processing.steps.filter.ConditionType;
+import com.example.tk_etlproc.processing.steps.filter.FilterRowStepMeta;
+import com.example.tk_etlproc.processing.steps.filter.FilterRowsStep;
 import com.example.tk_etlproc.processing.steps.groupby.GroupByStep;
 import com.example.tk_etlproc.processing.steps.groupby.GroupByStepMeta;
 import com.example.tk_etlproc.processing.steps.join.JoinColumnStepMeta;
 import com.example.tk_etlproc.processing.steps.join.JoinColumnsStep;
 import com.example.tk_etlproc.processing.steps.nullif.NullifStep;
 import com.example.tk_etlproc.processing.steps.nullif.NullifStepMeta;
+import com.example.tk_etlproc.processing.steps.unique.UniqueRowsStep;
 import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +59,18 @@ public class NormalConfigReader implements ConfigReader {
                         .build();
                 GroupByStep groupByStep = new GroupByStep(groupByStepMeta);
                 return groupByStep;
+            case "filterrows":
+                FilterRowStepMeta filterRowStepMeta = FilterRowStepMeta.builder()
+                        .column1((String) stepMetaList.get("column1"))
+                        .column2((String) stepMetaList.get("column2"))
+                        .conditionType(ConditionType.valueOf((String) stepMetaList.get("conditionType")))
+                        .meetsCondition((Boolean) stepMetaList.get("meetsCondition"))
+                        .staticValue((Boolean) stepMetaList.get("staticValue"))
+                        .build();
+                FilterRowsStep filterRowsStep = new FilterRowsStep(filterRowStepMeta);
+                return filterRowsStep;
+            case "uniquerows":
+                return new UniqueRowsStep();
 //                cases....
                     default:
                 throw new StepNotFoundException("Invalid step name");

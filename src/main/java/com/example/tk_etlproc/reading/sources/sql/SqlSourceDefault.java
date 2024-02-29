@@ -1,9 +1,11 @@
 package com.example.tk_etlproc.reading.sources.sql;
 
 import com.example.tk_etlproc.api.DTO.source.ConfigDatabaseDTO;
+import com.example.tk_etlproc.archive.manager.ArchiveManager;
 import com.example.tk_etlproc.exceptions.InvalidColumnNameException;
 import com.example.tk_etlproc.exceptions.StepNotFoundException;
 import com.example.tk_etlproc.processing.OutputFromStep;
+import com.example.tk_etlproc.archive.save.ArchiveSaveType;
 import com.example.tk_etlproc.reading.InputHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,16 +15,20 @@ import java.sql.*;
 import java.util.List;
 
 @Service
-public class SqlServerSource implements SqlSource {
+public class SqlSourceDefault extends SqlSource {
 
     private InputHandler inputHandler;
+    private ArchiveManager manager;
     @Autowired
-    public SqlServerSource(InputHandler inputHandler) {
+    public SqlSourceDefault(InputHandler inputHandler, ArchiveManager manager) {
         this.inputHandler = inputHandler;
+        this.manager = manager;
     }
 
+
+
     @Override
-    public List<OutputFromStep> read(ConfigDatabaseDTO configDTO) throws ClassNotFoundException, SQLException, StepNotFoundException, InvalidColumnNameException, IOException {
+    public List<OutputFromStep> read(ConfigDatabaseDTO configDTO, SqlType type) throws ClassNotFoundException, SQLException, StepNotFoundException, InvalidColumnNameException, IOException {
         String connectionurl="jdbc:sqlserver://" + configDTO.getHost()
                 + ":"  + configDTO.getPort()
                 + ";DatabaseName=" + configDTO.getDatabaseName()
@@ -30,7 +36,11 @@ public class SqlServerSource implements SqlSource {
                 + ";password=" + configDTO.getPassword()
                 + ";encrypt=true;trustServerCertificate=true;";
 
-        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        switch (type){
+            case SQL_SERVER -> Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        }
+
+
         Connection connection = DriverManager.getConnection(connectionurl);
         if (connection != null) {
             System.out.println("Connection created successfully..");
@@ -62,6 +72,8 @@ public class SqlServerSource implements SqlSource {
                 }
                 sb.append("\n");
             }
+            manager.saveArchive( configDTO , sb, ArchiveSaveType.IN);
+
             return inputHandler.handle_data(sb,",", true, configDTO);
         }
         else {

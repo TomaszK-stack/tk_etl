@@ -1,6 +1,7 @@
 package com.example.tk_etlproc.reading.sources.file;
 
 import com.example.tk_etlproc.api.DTO.source.ConfigFileDTO;
+import com.example.tk_etlproc.archive.manager.ArchiveManager;
 import com.example.tk_etlproc.exceptions.InvalidColumnNameException;
 import com.example.tk_etlproc.exceptions.StepNotFoundException;
 import com.example.tk_etlproc.processing.OutputFromStep;
@@ -14,15 +15,17 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Service
-public class FileXLSXSource implements FileSource{
+public class FileXLSXSource extends FileSource{
     private InputHandler inputHandler;
 
-    public FileXLSXSource(InputHandler inputHandler) {
+    public FileXLSXSource(ArchiveManager manager, InputHandler inputHandler) {
+        super(manager);
         this.inputHandler = inputHandler;
     }
 
     @Override
     public List<OutputFromStep> read(ConfigFileDTO configFileDTO) throws IOException, StepNotFoundException, SQLException, ClassNotFoundException, InvalidColumnNameException {
+        super.read(configFileDTO);
         StringBuilder data = get_data_from_file(configFileDTO.getPath());
         return inputHandler.handle_data(data,",", configFileDTO.header,configFileDTO);
     }

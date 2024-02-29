@@ -1,4 +1,4 @@
 package com.example.tk_etlproc.processing.steps;
 
-public class BaseStepMeta {
+public abstract class BaseStepMeta {
 }

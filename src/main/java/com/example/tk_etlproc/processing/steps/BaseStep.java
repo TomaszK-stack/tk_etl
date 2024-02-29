@@ -1,7 +1,5 @@
 package com.example.tk_etlproc.processing.steps;
 
-import com.example.tk_etlproc.exceptions.InvalidColumnNameException;
-import com.example.tk_etlproc.exceptions.InvalidOperationNameException;
 import com.example.tk_etlproc.processing.InputStepData;
 import com.example.tk_etlproc.processing.InputStepMeta;
 import com.example.tk_etlproc.processing.OutputFromStep;
