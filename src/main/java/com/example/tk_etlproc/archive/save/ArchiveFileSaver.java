@@ -26,14 +26,14 @@ public class ArchiveFileSaver {
             bfw.write(line);
             bfw.write("\n");
         }
-    bfw.flush();
+        bfr.close();
     }
     public void save(StringBuilder data, String fileName, ArchiveSaveType saveType) throws IOException {
         BufferedWriter bfw = new BufferedWriter(new FileWriter(new File(path + "\\"
                 + saveType.toString().toLowerCase()+
                 "\\" + fileName)));
         bfw.write(data.toString());
-        bfw.flush();
+        bfw.close();
     }
 
 }

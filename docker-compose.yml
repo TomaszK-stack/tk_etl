@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql_db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:latest
+    container_name: sqlserver_db
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: KsiazeHarry321
+      MSSQL_PID: Express
+      MSSQL_AGENT_ENABLED: "true"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+
+volumes:
+  mysql_data:
+  sqlserver_data:
